@@ -1,0 +1,12 @@
+## Define your sshails here:
+# sshails:
+#  -
+#      user: mike
+#      real_user: test1
+#      basic_passwd: "123"
+#      user_crypt: '$6$aOoiKGBC$Ap1U9EFSmgPqZRgrbwbvQEqFjqGlTJ5OOJ5WvVxw7WYXhDzukUETlCvyo0iPkFzIHWgNKfQ227VuBcyyyyyyyy'
+#  -
+#      user: bob
+#      real_user: test2
+#      basic_passwd: "456"
+#      user_crypt: '$6$aOoiKkBC$Ap1U9EFSmgPqZRgrbwbvQEqFjqGlTJ5OOJ5WvVxw7WYXhDzukUETlCvyo0iPkFzIHWgNKfQ227VuBcwzzzzzzz

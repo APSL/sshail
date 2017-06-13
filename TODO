@@ -1,0 +1,12 @@
+docker run --name sshail-bmiro-$(date +%Y%m%d%H%M) -e SSHAILENV_USER=bmiro -e SSHAILENV_USER_UID=1040 -e SSHAILENV_USER_GID=1040 -e SSHAILENV_USER_HOME=/home/bb -e SSHAILENV_USER_CRYPT='$6$aOoiKGBC$Ap1U9EOSmgPqZRxrbwbvQEqFjqGlWJ5OOJ5WvVxw7TYXhDxikUETlCvyo0iPkFzIHWgNKfQsp7VuBcwXUnUMg0' -v /home/bb:/home/bmiro sshail-minimal
+
+docker build /etc/sshail/images/sshail-minimal --tag sshail-minimal
+
+- Script for cron to purge sshails daily
+- Post and pre scirpts handling (firewall) for sshails
+- Fix /etc/sshail permission
+- basic auth hashed (salted?)
+- MOTD when entering the container
+- Create /var/log/sshail.log
+- Fancy web for asking the shell
+- Better information when building docker images

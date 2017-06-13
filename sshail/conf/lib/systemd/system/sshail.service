@@ -1,0 +1,15 @@
+[Unit]
+Description=SSHail daemon
+After=network.target
+
+[Service]
+User=sshail
+ExecStart=/usr/local/bin/sshail
+
+Type=simple
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+

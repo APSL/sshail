@@ -1,0 +1,3 @@
+# Call the sshail purge every hour
+
+19 * * * *   sshail  [ -x /usr/local/bin/sshail ] && /usr/local/bin/sshail --purge
