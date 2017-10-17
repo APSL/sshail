@@ -9,4 +9,5 @@ docker build /etc/sshail/images/sshail-minimal --tag sshail-minimal
 - MOTD when entering the container
 - Create /var/log/sshail.log
 - Fancy web for asking the shell
-- Better information when building docker images
+- Auto build base image on startup
+- Allow custom user home from config
