@@ -107,6 +107,7 @@ def ssh_view():
     image = user.get('image', 'sshail-minimal')
     real_user = user['real_user']
     virt_crypt = user['user_crypt']
+    virt_home = user.get('virt_home', '/home/{}'.format(username))
 
 
     if 'ttl' in user:
@@ -130,6 +131,7 @@ def ssh_view():
         real_user=real_user,
         virt_user=username,
         virt_crypt=virt_crypt,
+        virt_home=virt_home,
         ssh_host=app.config['SSHAIL_SSH_HOST'],
         expire_date=expire_date,
         ssh_port_range=app.config['SSHAIL_PORT_RANGE'],

@@ -85,6 +85,7 @@ class Sshail(object):
                  real_user=None,
                  virt_user=None,
                  virt_crypt=None,
+                 virt_home=None,
                  ssh_host='localhost',
                  expire_date=None,
                  ports={},
@@ -97,6 +98,7 @@ class Sshail(object):
         self.__real_user = real_user
         self.__virt_user = virt_user
         self.__virt_crypt = virt_crypt
+        self.__virt_home = virt_home or "/home/{}".format(self.virtual_user)
         self.__ssh_host = ssh_host
         self.__expire_date = expire_date
         self.__ports = ports
@@ -106,7 +108,6 @@ class Sshail(object):
 
         # Generated attributes
         self.__real_home = getpwnam(self.real_user).pw_dir
-        self.__virt_home = "/home/{}".format(self.virtual_user)
 
         home_volume = {
             self.__real_home: {"bind": self.__virt_home, "mode": "rw"}

@@ -82,6 +82,7 @@ At this file you can specify a list of the enabled sshails.
 | `real_user`    | Real user of the host system to inherit permissions            |
 | `basic_passwd` | Password (clear text) for the HTTP API basic auth              |
 | `user_crypt`   | Linux crypt for `/etc/shadow` for the `user` inside the sshail |
+| `virt_home`    | Where to place the home inside the contaienr (default /home/)  |
 
 ### Basic Example
 
@@ -96,3 +97,4 @@ At this file you can specify a list of the enabled sshails.
             real_user: test2
             basic_passwd: "456"
             user_crypt: '$6$aOoiKkBC$Ap1U9EFSmgPqZRgrbwbvQEqFjqGlTJ5OOJ5WvVxw7WYXhDzukUETlCvyo0iPkFzIHWgNKfQ227VuBcwzzzzzzz'
+            container_home: '/var/www/users/bob'
