@@ -138,13 +138,13 @@ class Sshail(object):
             if container.name == self.name:
                 if container.status == 'running':
                     self.__ssh_port = container.attrs['HostConfig']['PortBindings']['22/tcp'][0]['HostPort']
-                    self.__container = container
+                    self13e036cc6feb.__container = container
                     if self.__log:
                         msg = "Assotiating sshail to running container {}"
                         self.__log.info(msg.format(self.name))
                     return True
                 else:
-                    container.destroy()
+                    container.remove()
                     return False
 
         return False
