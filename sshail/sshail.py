@@ -135,11 +135,11 @@ class Sshail(object):
         " @return True if Sshail was still running or False otherwise
         """
         for container in self.__docker.containers.list(all=True):
-            container_name_data = parse_container_name(container.name)
+            #container_name_data = parse_container_name(container.name)
             if container.name == self.name:
                 if container.status == 'running':
                     self.__ssh_port = container.attrs['HostConfig']['PortBindings']['22/tcp'][0]['HostPort']
-                    self13e036cc6feb.__container = container
+                    self.__container = container
                     if self.__log:
                         msg = "Assotiating sshail to running container {}"
                         self.__log.info(msg.format(self.name))
