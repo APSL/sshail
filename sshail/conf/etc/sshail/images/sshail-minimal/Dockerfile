@@ -12,6 +12,9 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 COPY entrypoint.sh /
 
+# Directory for other images to extend entrypoint funcionality
+RUN mkdir -p /entrypoint.d
+
 EXPOSE 22
 
 # Prfixed with SSHAILENV to avoid colisons with other

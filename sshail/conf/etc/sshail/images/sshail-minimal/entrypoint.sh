@@ -44,10 +44,22 @@ then
 fi
 
 
-groupadd -g $gid $user
-useradd -u $uid -g $gid -m --home-dir "$home" -p "$crypt" -s /bin/bash $user
+group=$(echo "$user" | cut -b -16)
+
+groupadd -g $gid "$group"
+useradd -u $uid -g $gid -m --home-dir "$home" -p "$crypt" -s /bin/bash "$user"
 
 mkdir /var/run/sshd
 chmod 0755 /var/run/sshd
 
+# Directory for other images to extend entrypoint funcionality
+while read -r file
+do
+    [ "$file" == "." ] && continue
+    [ "$file" == ".." ] && continue
+    /entrypoint.d/"$file"
+
+done < <(ls -f /entrypoint.d)
+
 /usr/sbin/sshd -D
+
