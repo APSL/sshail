@@ -4,6 +4,9 @@ After=network.target
 
 [Service]
 User=sshail
+PermissionsStartOnly=true
+ExecStartPre=/bin/touch /var/log/sshail.log
+ExecStartPre=/bin/chown sshail:sshail /var/log/sshail.log
 ExecStart=/usr/local/bin/sshail
 
 Type=simple
