@@ -211,7 +211,7 @@ class Sshail(object):
         self.__container.stop()
 
 
-    def destory(self):
+    def destroy(self):
         """
         " Destroy the docker container associated to this sshail
         """

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from sys import version_info
 
@@ -17,7 +17,7 @@ INSTALL_REQUIRES = [
 
 setup(
     name='sshail',
-    version='0.0.7',
+    version='0.0.8',
     include_package_data=True,
     packages=[
         'sshail',
