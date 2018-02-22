@@ -73,6 +73,14 @@ def parse_container_name(name, prefix="sshail", delim="-"):
         return {}
 
 
+def build_image(docker, log, image):
+    if log:
+        msg = "Building image {}"
+        log.info(msg.format(image))
+
+    image_path = "/etc/sshail/images/{}".format(image)
+    docker.images.build(path=image_path, tag=image, pull=True)
+
 class Sshail(object):
     """
     " Define a sshail which is a docker container
@@ -170,22 +178,10 @@ class Sshail(object):
                 msg = "Going to start {}"
                 self.__log.info(msg.format(self.name))
 
-            self.__container = self.__docker.containers.run(
-                self.__image,
-                name=self.name,
-                ports=self.__ports,
-                volumes=self.__volumes,
-                environment=self.__env,
-                detach=True,
-            )
+            self.__docker.images.get(self.__image)
         except docker.errors.ImageNotFound:
-            if self.__log:
-                msg = "Building image {}"
-                self.__log.info(msg.format(self.__image))
-
-            image_path = "/etc/sshail/images/{}".format(self.__image)
-            self.__docker.images.build(path=image_path, tag=self.__image)
-
+            build_image(self.__docker, self.__log, self.__image)
+        finally:
             self.__container = self.__docker.containers.run(
                 self.__image,
                 name=self.name,
@@ -198,7 +194,6 @@ class Sshail(object):
         if self.__log:
             msg = "The sshail {} has been started"
             self.__log.info(msg.format(self.name))
-
 
     def stop(self):
         """

@@ -17,7 +17,7 @@ INSTALL_REQUIRES = [
 
 setup(
     name='sshail',
-    version='0.0.8',
+    version='0.0.10',
     include_package_data=True,
     packages=[
         'sshail',
