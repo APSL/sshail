@@ -14,7 +14,7 @@ from dateutil import relativedelta
 from flask import Flask, request, redirect
 
 from sshail import sshails
-from sshail.sshail import Sshail, purge_sshails
+from sshail.sshail import Sshail, purge_sshails, build_image
 from sshail.deploy import deploy_conf
 from sshail.addsshail import addsshail as sshailadd
 from sshail.basic_auth import basic_auth
@@ -23,7 +23,7 @@ from sshail.basic_auth import basic_auth
 app = Flask(__name__)
 
 CONF_DIR = "/etc/sshail"
-
+DEFAULT_IMAGE= 'sshail-minimal'
 
 if __name__ == "__main__":
     sshail()
@@ -32,8 +32,9 @@ if __name__ == "__main__":
 @click.command()
 @click.option("--deploy", is_flag=True, help="Deploy sshail configuration")
 @click.option("--purge", is_flag=True, help="Purge expired sshails")
+@click.option("--build-docker-image", is_flag=True, help="Force rebuild for docker image")
 @click.option("--addsshail", help="Generate a user sshail")
-def sshail(deploy, addsshail, purge):
+def sshail(deploy, addsshail, build_docker_image, purge):
 
     log = logging.getLogger(__name__)
 
@@ -64,6 +65,9 @@ def sshail(deploy, addsshail, purge):
 
         exit(error)
 
+    if build_docker_image:
+        build_image(docker.from_env(), log, DEFAULT_IMAGE)
+
     if addsshail:
         error = sshailadd(user=addsshail, log=log)
         exit(error)
@@ -82,7 +86,7 @@ def api_http(log_handler=None):
             # TODO
             raise exc
 
-    sshails.data = [x for x in config['sshails']]
+    sshails.data = [x for x in config['sshails']] if config else []
 
     if log_handler:
         app.logger.addHandler(log_handler)
@@ -104,7 +108,7 @@ def ssh_view():
 
     user = sshails.user_data(username)
 
-    image = user.get('image', 'sshail-minimal')
+    image = user.get('image', DEFAULT_IMAGE)
     real_user = user['real_user']
     virt_crypt = user['user_crypt']
     virt_home = user.get('virt_home', '/home/{}'.format(username))
