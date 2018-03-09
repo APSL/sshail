@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import glob
 import logging
 
 from sys import exit, stdout
@@ -14,7 +15,13 @@ from dateutil import relativedelta
 from flask import Flask, request, redirect
 
 from sshail import sshails
-from sshail.sshail import Sshail, purge_sshails, build_image
+from sshail.sshail import (
+    Sshail,
+    purge_sshails,
+    build_image,
+    DOCKER_IMAGE_PATH,
+    DOCKER_DEFAULT_IMAGE
+)
 from sshail.deploy import deploy_conf
 from sshail.addsshail import addsshail as sshailadd
 from sshail.basic_auth import basic_auth
@@ -23,7 +30,7 @@ from sshail.basic_auth import basic_auth
 app = Flask(__name__)
 
 CONF_DIR = "/etc/sshail"
-DEFAULT_IMAGE= 'sshail-minimal'
+
 
 if __name__ == "__main__":
     sshail()
@@ -66,7 +73,17 @@ def sshail(deploy, addsshail, build_docker_image, purge):
         exit(error)
 
     if build_docker_image:
-        build_image(docker.from_env(), log, DEFAULT_IMAGE)
+        build_image(docker.from_env(), log, DOCKER_DEFAULT_IMAGE, pull=True)
+
+        # Exclude DOCKER_DEFAULT_IMAGE
+        images = filter(lambda image: image != "%s/%s" %
+            (DOCKER_IMAGE_PATH, DOCKER_DEFAULT_IMAGE),
+            glob.glob(DOCKER_IMAGE_PATH + "/*"))
+        # Build every image inside DOCKER_IMAGE_PATH
+        for image in images:
+            build_image(docker.from_env(), log, 
+                image.replace(DOCKER_IMAGE_PATH+'/',''))
+        exit(0)
 
     if addsshail:
         error = sshailadd(user=addsshail, log=log)
@@ -108,7 +125,7 @@ def ssh_view():
 
     user = sshails.user_data(username)
 
-    image = user.get('image', DEFAULT_IMAGE)
+    image = user.get('image', DOCKER_DEFAULT_IMAGE)
     real_user = user['real_user']
     virt_crypt = user['user_crypt']
     virt_home = user.get('virt_home', '/home/{}'.format(username))
