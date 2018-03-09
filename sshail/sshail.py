@@ -11,6 +11,9 @@ from socket import socket, AF_INET, SOCK_STREAM
 import docker
 import dateutil.parser
 
+DOCKER_IMAGE_PATH="/etc/sshail/images"
+DOCKER_DEFAULT_IMAGE= 'sshail-minimal'
+
 def purge_sshails(prefix='sshail', delim='-', log=None):
     """
     " Look for sshails that has been expired and stop and remove them.
@@ -73,13 +76,13 @@ def parse_container_name(name, prefix="sshail", delim="-"):
         return {}
 
 
-def build_image(docker, log, image):
+def build_image(docker, log, image, pull=False):
     if log:
         msg = "Building image {}"
         log.info(msg.format(image))
 
-    image_path = "/etc/sshail/images/{}".format(image)
-    docker.images.build(path=image_path, tag=image, pull=True)
+    image_path = "{}/{}".format(DOCKER_IMAGE_PATH,image)
+    docker.images.build(path=image_path, tag=image, pull=pull)
 
 class Sshail(object):
     """
