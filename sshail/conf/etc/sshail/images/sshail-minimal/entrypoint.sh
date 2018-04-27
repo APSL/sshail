@@ -46,20 +46,33 @@ fi
 
 group=$(echo "$user" | cut -b -16)
 
-groupadd -g $gid "$group"
-useradd -u $uid -g $gid -m --home-dir "$home" -p "$crypt" -s /bin/bash "$user"
+getent group "$group" || \
+    groupadd -g $gid "$group"
 
-mkdir /var/run/sshd
+id -u "$user" &>/dev/null || \
+    useradd -u $uid -g $gid -m --home-dir "$home" -p "$crypt" -s /bin/bash "$user"
+
+mkdir -p /var/run/sshd
 chmod 0755 /var/run/sshd
+
+mkdir -p /provisioned/
 
 # Directory for other images to extend entrypoint funcionality
 while read -r file
 do
     [ "$file" == "." ] && continue
     [ "$file" == ".." ] && continue
-    /entrypoint.d/"$file"
+    if [ ! -e /provisioned/"$file" ];
+    then
+        echo "Provisioning $file"
+        /entrypoint.d/"$file"
+        touch /provisioned/"$file"
+    else
+        echo "$file already provisioned, skipping"
+    fi
 
 done < <(ls -f /entrypoint.d)
 
+echo "Starting SSH"
 /usr/sbin/sshd -D
-
+echo "SSH is dead, exiting"
