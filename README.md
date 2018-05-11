@@ -97,4 +97,4 @@ At this file you can specify a list of the enabled sshails.
             real_user: test2
             basic_passwd: "456"
             user_crypt: '$6$aOoiKkBC$Ap1U9EFSmgPqZRgrbwbvQEqFjqGlTJ5OOJ5WvVxw7WYXhDzukUETlCvyo0iPkFzIHWgNKfQ227VuBcwzzzzzzz'
-            container_home: '/var/www/users/bob'
+            virt_home: '/var/www/users/bob'
