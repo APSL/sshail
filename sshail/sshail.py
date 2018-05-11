@@ -99,8 +99,8 @@ class Sshail(object):
                  virt_home=None,
                  ssh_host='localhost',
                  expire_date=None,
-                 ports={},
-                 volumes={},
+                 ports=None,
+                 volumes=None,
                  ssh_port_range=None,
                  log=None,
                 ):
@@ -112,8 +112,8 @@ class Sshail(object):
         self.__virt_home = virt_home or "/home/{}".format(self.virtual_user)
         self.__ssh_host = ssh_host
         self.__expire_date = expire_date
-        self.__ports = ports
-        self.__volumes = volumes
+        self.__ports = ports or {}
+        self.__volumes = volumes or {}
         self.__ssh_port_range = ssh_port_range
         self.__log = log
 
