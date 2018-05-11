@@ -11,7 +11,7 @@ Also you can have virtual users only aviable in the sshail mapped to
 real users outside the container so you can manipulate the files
 and permissions easy.
 
-The sshails are destroyed daily for security and avoid resouce exhaustion.
+The sshails are destroyed daily for security and avoiding resouce exhaustion.
 
 # Usage example
 
@@ -26,7 +26,7 @@ It will respond with something like:
 
 # Install & configure
 
-First of all you will need `docker` installer properly on your system. Visit
+First of all you will need `docker` installed properly on your system. Visit
 the official documentation to do that.
 
 On Debian based systems you can install the `debrequirements.txt` with `apt` if you
